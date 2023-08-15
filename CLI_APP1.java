@@ -375,7 +375,120 @@ public class CLI_APP1 {
                     break;
                     
                 case accountBalance:
+                    String detailsacc;
+                    boolean found5;
+                    int index5=0;
+                    loop10:
+                    do{
+                        found5=true;
+                        System.out.print("Account number : ");
+                        detailsacc = scan.nextLine().strip();
+                        if(detailsacc.isEmpty()){
+                            System.out.println("Account Number can't be Empty");
+                            continue;
+                        } else if(!detailsacc.startsWith("SDB-")||detailsacc.length()!=9){
+                            System.out.println("Invalid input");
+                            continue;
+                        }
+                        for (int i = 4; i < detailsacc.length(); i++) {
+                            if(!(Character.isDigit(detailsacc.charAt(i)))){
+                                System.out.println("Invalid input");
+                                continue loop10;
+                            }
+                        }
+                        for (int i = 0; i < CustomerAccount.length; i++) {
+                            if(detailsacc.equals(CustomerAccount[i])){
+                                index5=i;
+                                found5=false;
+                                continue loop10;
+                            }
+                        }
+                        System.out.println("Account not Found");
+                        continue;
+                        
+                    }while(found5);
+                    System.out.printf("Name : %s\n",CustomerName[index5]);
+                    System.out.printf("Current Account balance : %.2f\n\n",amount[index5]);
+
+                    System.out.printf("Available balance for withdrawal : %s\n\n",amount[index5]-500.00);
+
+                    System.out.print("Do you want to continue [Y/N] : ");
+                
+                    if (scan.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = Dashboard;
+                    break;
+
+                    
                 case deleteAccount:  
+                    String deleteacc;
+                    boolean found6;
+                    int index6=0;
+                    loop11:
+                    do{
+                        found6=true;
+                        System.out.print("Account number : ");
+                        deleteacc = scan.nextLine().strip();
+                        if(deleteacc.isEmpty()){
+                            System.out.println("Account Number can't be Empty");
+                            continue;
+                        } else if(!deleteacc.startsWith("SDB-")||deleteacc.length()!=9){
+                            System.out.println("Invalid input");
+                            continue;
+                        }
+                        for (int i = 4; i < deleteacc.length(); i++) {
+                            if(!(Character.isDigit(deleteacc.charAt(i)))){
+                                System.out.println("Invalid input");
+                                continue loop11;
+                            }
+                        }
+                        for (int i = 0; i < CustomerAccount.length; i++) {
+                            if(deleteacc.equals(CustomerAccount[i])){
+                                index6=i;
+                                found6=false;
+                                continue loop11;
+                            }
+                        }
+                        System.out.println("Account not Found");
+                        continue;
+                        
+                    }while(found6);
+                    System.out.printf("Name : %s\n",CustomerName[index6]);
+                    System.out.printf("Current Account balance : %.2f\n\n",amount[index6]);
+
+                    System.out.print("Are you sure to Delete [Y/N] : ");
+                
+                    if (scan.nextLine().strip().toUpperCase().equals("Y")){
+                        String [] deleteAcc = new String[CustomerAccount.length-1];
+                        String [] deletename = new String[CustomerName.length-1];
+                        double [] deleteamonut = new double[amount.length-1];
+
+                        for (int i = 0; i < CustomerAccount.length; i++) {
+                            if(i<index6){
+                                deleteAcc[i]=CustomerAccount[i];
+                                deletename[i]=CustomerName[i];
+                                deleteamonut[i]=amount[i];
+                            } else if(i>index6){
+                                deleteAcc[i-1]=CustomerAccount[i];
+                                deletename[i-1]=CustomerName[i];
+                                deleteamonut[i-1]=amount[i];
+                            }
+                        }
+                        CustomerAccount=deleteAcc;
+                        CustomerName=deletename;
+                        amount=deleteamonut;
+
+
+                    } else{
+                        screen = Dashboard;
+                        break;
+                    }
+                    System.out.println("Deleted Successfully.. \n");
+                    System.out.print("Do you want to continue [Y/N] : ");
+                
+                    if (scan.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = Dashboard;
+                    break;
+                    
                 default:
                     System.exit(0);
             }
