@@ -34,7 +34,7 @@ public class CLI_APP1 {
                     System.out.println("[4] Transfer");
                     System.out.println("[5] Check Account Balance");
                     System.out.println("[6] Delete Account");
-                    System.out.println("[7] Exit\n");
+                    System.out.println("[7] Exit\n\n");
                     System.out.print("Enter your Option : ");
                     int input = scan.nextInt();
                     scan.nextLine();
