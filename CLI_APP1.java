@@ -195,7 +195,7 @@ public class CLI_APP1 {
                     screen = Dashboard;
                     break;
                 case withdrawal:
-                
+
                     String withdrawalaccount;
                     boolean found2;
                     int index2=0;
@@ -266,6 +266,114 @@ public class CLI_APP1 {
                     break;
 
                 case transfer:
+                    String transferfrom;
+                    boolean found3;
+                    int index3=0;
+                    loop7:
+                    do{
+                        found3=true;
+                        System.out.print("Transfer from Account number : ");
+                        transferfrom = scan.nextLine().strip();
+                        if(transferfrom.isEmpty()){
+                            System.out.println("Account Number can't be Empty");
+                            continue;
+                        } else if(!transferfrom.startsWith("SDB-")||transferfrom.length()!=9){
+                            System.out.println("Invalid input");
+                            continue;
+                        }
+                        for (int i = 4; i < transferfrom.length(); i++) {
+                            if(!(Character.isDigit(transferfrom.charAt(i)))){
+                                System.out.println("Invalid input");
+                                continue loop7;
+                            }
+                        }
+                        for (int i = 0; i < CustomerAccount.length; i++) {
+                            if(transferfrom.equals(CustomerAccount[i])){
+                                index3=i;
+                                found3=false;
+                                continue loop7;
+                            }
+                        }
+                        System.out.println("Account not Found");
+                        continue;
+                        
+                    }while(found3);
+                    System.out.println("Account name : "+CustomerName[index3]);
+                    System.out.println();
+
+                    String transferto;
+                    boolean found4;
+                    int index4=0;
+                    loop8:
+                    do{
+                        found4=true;
+                        System.out.print("Transfer to Account number : ");
+                        transferto = scan.nextLine().strip();
+                        if(transferto.isEmpty()){
+                            System.out.println("Account Number can't be Empty");
+                            continue;
+                        } else if(!transferto.startsWith("SDB-")||transferto.length()!=9){
+                            System.out.println("Invalid input");
+                            continue;
+                        }
+                        for (int i = 4; i < transferto.length(); i++) {
+                            if(!(Character.isDigit(transferto.charAt(i)))){
+                                System.out.println("Invalid input");
+                                continue loop8;
+                            }
+                        }
+                        for (int i = 0; i < CustomerAccount.length; i++) {
+                            if(transferto.equals(CustomerAccount[i])){
+                                index4=i;
+                                found4=false;
+                                continue loop8;
+                            }
+                        }
+                        System.out.println("Account not Found");
+                        continue;
+                        
+                    }while(found4);
+                    System.out.println("Account name : "+CustomerName[index4]);
+                    System.out.println();
+                    System.out.printf("From A/C balance : %.2f\n",amount[index3]);
+                    System.out.printf("To A/C balance : %.2f\n\n",amount[index4]);
+
+                    String transferAmmount;
+                    loop9:
+                    do{
+                        System.out.print("Transfer Amount : ");
+                        transferAmmount = scan.nextLine().strip();
+                        if(transferAmmount.isEmpty()){
+                            System.out.println("transfer amount can't be empty");
+                            continue;
+                        }
+                        for (int i = 0; i < transferAmmount.length(); i++) {
+                            if(!(Character.isDigit(transferAmmount.charAt(i))||transferAmmount.charAt(i)=='.')){
+                                System.out.println("Invalid input");
+                                continue loop9;
+                            }
+                        }
+                        if(Double.valueOf(transferAmmount)<=100.00){
+                            System.out.println("Transfer amount should be greater than Rs. 100.00");
+                            continue;
+                        }
+                        break;
+
+
+                    }while(true);
+
+                    amount[index3]-=(Double.valueOf(transferAmmount))*(1.02);
+                    amount[index4]+=Double.valueOf(transferAmmount);
+
+                    System.out.printf("\nAccount %s new balance : %.2f\n",transferfrom,amount[index3]);
+                    System.out.printf("Account %s new balance : %.2f\n\n",transferto,amount[index4]);
+
+                    System.out.print("Do you want to continue [Y/N] : ");
+                
+                    if (scan.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = Dashboard;
+                    break;
+                    
                 case accountBalance:
                 case deleteAccount:  
                 default:
