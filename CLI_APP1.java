@@ -128,7 +128,7 @@ public class CLI_APP1 {
 
 
                 case deposits:  
-                
+
                     String depositaccount;
                     boolean found;
                     int index=0;
@@ -195,6 +195,76 @@ public class CLI_APP1 {
                     screen = Dashboard;
                     break;
                 case withdrawal:
+                
+                    String withdrawalaccount;
+                    boolean found2;
+                    int index2=0;
+                    loop5:
+                    do{
+                        found2=true;
+                        System.out.print("Enter Account number : ");
+                        withdrawalaccount = scan.nextLine().strip();
+                        if(withdrawalaccount.isEmpty()){
+                            System.out.println("Account number can't be Empty");
+                            continue;
+                        } else if(!withdrawalaccount.startsWith("SDB-")||withdrawalaccount.length()!=9){
+                            System.out.println("Invalid input");
+                            continue;
+                        }
+                        for (int i = 4; i < withdrawalaccount.length(); i++) {
+                            if(!(Character.isDigit(withdrawalaccount.charAt(i)))){
+                                System.out.println("Invalid input");
+                                continue loop5;
+                            }
+                        }
+                        for (int i = 0; i < CustomerAccount.length; i++) {
+                            if(withdrawalaccount.equals(CustomerAccount[i])){
+                                index2=i;
+                                found2=false;
+                                continue loop5;
+                            }
+                        }
+                        System.out.println("Account not Found");
+                        continue;
+                        
+                    }while(found2);
+
+                    System.out.printf("Name : %s\n",CustomerName[index2]);
+                    System.out.printf("Current balance : Rs %.2f\n\n",amount[index2]);
+
+                    String withdrawalAmmount;
+                    loop6:
+                    do{
+                        System.out.print("Withdrawal Amount : ");
+                        withdrawalAmmount = scan.nextLine().strip();
+                        if(withdrawalAmmount.isEmpty()){
+                            System.out.println("withdrawal can't be empty");
+                            continue;
+                        }
+                        for (int i = 0; i < withdrawalAmmount.length(); i++) {
+                            if(!(Character.isDigit(withdrawalAmmount.charAt(i))||withdrawalAmmount.charAt(i)=='.')){
+                                System.out.println("Invalid input");
+                                continue loop6;
+                            }
+                        }
+                        if(Double.valueOf(withdrawalAmmount)<=500.00){
+                            System.out.println("Withdrawal should be greater than Rs. 500.00");
+                            continue;
+                        }
+                        break;
+
+
+                    }while(true);
+                    amount[index2]-= Double.valueOf(withdrawalAmmount);
+                    System.out.printf("New Balance : Rs. %.2f\n\n",amount[index2]);
+
+
+                    System.out.print("Do you want to continue [Y/N] : ");
+                   
+                    if (scan.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = Dashboard;
+                    break;
+
                 case transfer:
                 case accountBalance:
                 case deleteAccount:  
