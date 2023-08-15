@@ -128,6 +128,72 @@ public class CLI_APP1 {
 
 
                 case deposits:  
+                
+                    String depositaccount;
+                    boolean found;
+                    int index=0;
+                    loop3:
+                    do{
+                        found=true;
+                        System.out.print("Enter Account number : ");
+                        depositaccount = scan.nextLine().strip();
+                        if(depositaccount.isEmpty()){
+                            System.out.println("Account number can't be Empty");
+                            continue;
+                        } else if(!depositaccount.startsWith("SDB-")||depositaccount.length()!=9){
+                            System.out.println("Invalid input");
+                            continue;
+                        }
+                        for (int i = 4; i < depositaccount.length(); i++) {
+                            if(!(Character.isDigit(depositaccount.charAt(i)))){
+                                System.out.println("Invalid input");
+                                continue loop3;
+                            }
+                        }
+                        for (int i = 0; i < CustomerAccount.length; i++) {
+                            if(depositaccount.equals(CustomerAccount[i])){
+                                index=i;
+                                found=false;
+                                continue loop3;
+                            }
+                        }
+                        System.out.println("Account not Found");
+                        continue;
+                        
+                    }while(found);
+                    
+                    System.out.printf("Name : %s\n",CustomerName[index]);
+                    System.out.printf("Current balance : Rs %.2f\n\n",amount[index]);
+                    String depositAmmount;
+                    loop4:
+                    do{
+                        System.out.print("Deposit Amount : ");
+                        depositAmmount = scan.nextLine().strip();
+                        if(depositAmmount.isEmpty()){
+                            System.out.println("Deposit can't be empty");
+                            continue;
+                        }
+                        for (int i = 0; i < depositAmmount.length(); i++) {
+                            if(!(Character.isDigit(depositAmmount.charAt(i))||depositAmmount.charAt(i)=='.')){
+                                System.out.println("Invalid input");
+                                continue loop4;
+                            }
+                        }
+                        if(Double.valueOf(depositAmmount)<=500.00){
+                            System.out.println("Deposit should be greater than Rs. 500.00");
+                            continue;
+                        }
+                        break;
+
+                    }while(true);
+                    amount[index]+=Double.valueOf(depositAmmount);
+                    System.out.printf("\nNew Balance : Rs. %.2f\n",(amount[index]));
+
+                    System.out.print("Do you want to continue [Y/N] : ");
+                   
+                    if (scan.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = Dashboard;
+                    break;
                 case withdrawal:
                 case transfer:
                 case accountBalance:
